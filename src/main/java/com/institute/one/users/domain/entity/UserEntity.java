@@ -25,7 +25,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import java.time.LocalDate;
 @Setter
 @Getter
 @Builder
@@ -74,13 +74,14 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "doc_type")
-    private DocTypeEnum DocType;
+    private DocTypeEnum docType;
 
     @Column(name = "doc_number")
-    private String DocNumber;
+    private String docNumber;
+
 
     @Column(name = "birth_date")
-    private String birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "email")
     private String email;

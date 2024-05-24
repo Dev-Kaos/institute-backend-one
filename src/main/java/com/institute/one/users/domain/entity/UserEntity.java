@@ -25,7 +25,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import java.time.LocalDate;
 @Setter
 @Getter
 @Builder
@@ -79,8 +79,9 @@ public class UserEntity {
     @Column(name = "doc_number")
     private String DocNumber;
 
+
     @Column(name = "birth_date")
-    private String birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "email")
     private String email;

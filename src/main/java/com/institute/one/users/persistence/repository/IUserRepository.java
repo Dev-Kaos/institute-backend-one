@@ -13,7 +13,7 @@ import com.institute.one.utilities.enums.StateEnum;
 @Repository
 public interface IUserRepository extends JpaRepository<UserEntity, Long> {
 
-    Optional<UserEntity> findByUsername(String username);
+    
 
     // List<UserEntity> findAllByNameContaining(String name);
 

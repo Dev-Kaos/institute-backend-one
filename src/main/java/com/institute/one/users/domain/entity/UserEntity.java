@@ -3,6 +3,8 @@ package com.institute.one.users.domain.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
+
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
 import com.institute.one.utilities.enums.StateEnum;
@@ -19,6 +21,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +30,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+
 @Setter
 @Getter
 @Builder
@@ -40,29 +45,9 @@ public class UserEntity {
     @Column(name = "id")
     private Long id;
 
-    // TODO: Security
-
-    @Column(name = "username", unique = true)
-    private String username;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "is_enabled")
-    private boolean isEnabled;
-
-    @Column(name = "account_no_expired")
-    private boolean AccountNoExpired;
-
-    @Column(name = "account_no_locked")
-    private boolean AccountNoLocked;
-
-    @Column(name = "credential_no_expired")
-    private boolean CredentialNoExpired;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleEntity> roles = new HashSet<>();
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @PrimaryKeyJoinColumn
+    private UserBasicAuthEntity userAuth;
 
     // TODO: Others
 
@@ -78,7 +63,6 @@ public class UserEntity {
 
     @Column(name = "doc_number")
     private String docNumber;
-
 
     @Column(name = "birth_date")
     private LocalDate birthDate;

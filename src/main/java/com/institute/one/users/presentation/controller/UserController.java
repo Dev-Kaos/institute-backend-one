@@ -38,24 +38,43 @@ public class UserController {
     @Autowired
     private IUserRequestService userRequestService;
 
-    
     // find all
     @GetMapping("/ver")
     @PreAuthorize("hasAuthority('LEER')")
-    public ResponseEntity<List<UserDTO>> findAll() {
+    public ResponseEntity<List<UserDTO>> ver() {
 
-        return new ResponseEntity<>(this.userRequestService.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(this.userRequestService.ver(), HttpStatus.OK);
 
     }
 
     // find all
-    @GetMapping("/verInfo")
-    @PreAuthorize("hasAuthority('LEER')")
-    public ResponseEntity<List<UserInfoDTO>> findAllInfo() {
 
-        return new ResponseEntity<>(this.userRequestService.findAllInfo(), HttpStatus.OK);
+    @GetMapping("/verTodo")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<List<UserInfoDTO>> verTodo() {
+
+        return new ResponseEntity<>(this.userRequestService.verTodo(), HttpStatus.OK);
 
     }
+
+    // find all
+    @GetMapping("/verusuarios")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<List<UserDTO>> verUsuarios() {
+
+        return new ResponseEntity<>(this.userRequestService.verUsuarios(), HttpStatus.OK);
+
+    }
+
+    // // find all
+    // @GetMapping("/verInfo")
+    // @PreAuthorize("hasAuthority('LEER')")
+    // public ResponseEntity<List<UserInfoDTO>> verUsuarios() {
+
+    // return new ResponseEntity<>(this.userRequestService.verUsuarios(),
+    // HttpStatus.OK);
+
+    // }
 
     // find by id
     @PreAuthorize("hasAuthority('READ')")
@@ -65,6 +84,7 @@ public class UserController {
         return new ResponseEntity<>(this.userRequestService.findById(id), HttpStatus.OK);
 
     }
+
     // create user
     @PostMapping("/crear")
     @PreAuthorize("hasAuthority('CREATE')")

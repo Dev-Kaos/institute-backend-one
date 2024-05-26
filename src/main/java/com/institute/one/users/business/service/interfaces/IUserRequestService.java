@@ -13,9 +13,14 @@ import com.institute.one.utilities.enums.StateEnum;
 @Service
 public interface IUserRequestService {
 
-    List<UserDTO> findAll();
+
+
+    List<UserDTO> ver();
     
-    List<UserInfoDTO> findAllInfo();
+    List<UserInfoDTO> verTodo();
+    
+
+    List<UserDTO> verUsuarios();   
 
     UserDTO findById(Long id);
 

@@ -26,7 +26,7 @@ public class UserRequestServiceImpl implements IUserRequestService {
     private IUserRepository userRepository;
 
     @Override
-    public List<UserDTO> findAll() {
+    public List<UserDTO> ver() {
 
         ModelMapper modelMapper = new ModelMapper();
 
@@ -37,15 +37,25 @@ public class UserRequestServiceImpl implements IUserRequestService {
     }
 
     @Override
-    public List<UserInfoDTO> findAllInfo() {
-
+    public List<UserInfoDTO> verTodo() {
+        
         ModelMapper modelMapper = new ModelMapper();
 
         return this.userRepository.findAll()
                 .stream()
                 .map(entity -> modelMapper.map(entity, UserInfoDTO.class))
                 .collect(Collectors.toList());
+    }
 
+    @Override
+    public List<UserDTO> verUsuarios() {
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        return this.userRepository.getNameAndUsername()
+                .stream()
+                .map(entity -> modelMapper.map(entity, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override

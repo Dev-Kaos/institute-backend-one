@@ -5,13 +5,17 @@ import java.util.Set;
 
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.institute.one.users.presentation.dto.UserDTO;
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
 import com.institute.one.utilities.enums.StateEnum;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ColumnResult;
+import jakarta.persistence.ConstructorResult;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -22,8 +26,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedNativeQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.SqlResultSetMapping;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,17 +45,28 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Entity
 @Table(name = "users")
+@NamedNativeQuery(
+
+        name = "getNameAndUsernameNamedQuery",
+        query = "SELECT u.name, ua.username FROM users u JOIN user_auth ua ON u.id = ua.user_id",
+        resultSetMapping = "UserDTOMapping"
+)
+@SqlResultSetMapping(
+
+        name = "UserDTOMapping", classes = @ConstructorResult(columns = {
+                @ColumnResult(name = "name", type = String.class),
+                @ColumnResult(name = "username", type = String.class)
+        }, targetClass = UserDTO.class)
+
+)
 public class UserEntity {
 
+
+    // SELECT u.name, ua.username FROM users u JOIN user_auth ua ON u.id = ua.user_id sql native
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-
-    @JsonManagedReference
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    @PrimaryKeyJoinColumn
-    private UserBasicAuthEntity userAuth;
 
     // TODO: Others
 
@@ -89,4 +106,8 @@ public class UserEntity {
     @Column(name = "state")
     private StateEnum state;
 
+    // @JsonManagedReference
+    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+    @PrimaryKeyJoinColumn
+    private UserBasicAuthEntity userAuth;
 }

@@ -17,32 +17,34 @@ import com.institute.one.users.persistence.repository.IUserBasicAuthRepository;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private IUserBasicAuthRepository userBasicAuthRepository;
+        @Autowired
+        private IUserBasicAuthRepository userBasicAuthRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        @Override
+        public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserBasicAuthEntity userBasicAuthEntity = userBasicAuthRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("no encontrado"));
+                UserBasicAuthEntity userBasicAuthEntity = userBasicAuthRepository.findByUsername(username)
+                                .orElseThrow(() -> new UsernameNotFoundException("no encontrado"));
 
-        List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
+                List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 
-        userBasicAuthEntity.getRoles()
-                .forEach(role -> authorityList
-                        .add(new SimpleGrantedAuthority("ROLE_".concat(role.getRoleEnum().name()))));
+                userBasicAuthEntity.getRoles()
+                                .forEach(role -> authorityList
+                                                .add(new SimpleGrantedAuthority(
+                                                                "ROLE_".concat(role.getRoleEnum().name()))));
 
-        userBasicAuthEntity.getRoles().stream()
-                .flatMap(role -> role.getPermissionList().stream())
-                .forEach(permission -> authorityList.add(new SimpleGrantedAuthority(permission.getName())));
+                userBasicAuthEntity.getRoles().stream()
+                                .flatMap(role -> role.getPermissionList().stream())
+                                .forEach(permission -> authorityList
+                                                .add(new SimpleGrantedAuthority(permission.getName())));
 
-        return new User(userBasicAuthEntity.getUsername(),
-                userBasicAuthEntity.getPassword(),
-                userBasicAuthEntity.isEnabled(),
-                userBasicAuthEntity.isAccountNoExpired(),
-                userBasicAuthEntity.isCredentialNoExpired(),
-                userBasicAuthEntity.isAccountNoLocked(),
-                authorityList);
-    }
+                return new User(userBasicAuthEntity.getUsername(),
+                                userBasicAuthEntity.getPassword(),
+                                userBasicAuthEntity.isEnabled(),
+                                userBasicAuthEntity.isAccountNoExpired(),
+                                userBasicAuthEntity.isCredentialNoExpired(),
+                                userBasicAuthEntity.isAccountNoLocked(),
+                                authorityList);
+        }
 
 }

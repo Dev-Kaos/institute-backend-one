@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.institute.one.users.business.service.interfaces.IUserRequestService;
 import com.institute.one.users.business.service.interfaces.IUserService;
 import com.institute.one.users.presentation.dto.UserDTO;
+import com.institute.one.users.presentation.dto.UserInfoDTO;
 import com.institute.one.utilities.enums.StateEnum;
 
 import jakarta.validation.Valid;
@@ -37,21 +38,22 @@ public class UserController {
     @Autowired
     private IUserRequestService userRequestService;
 
-    // ver todo developer / admin
-    // @GetMapping("/verTodo")
-    // @PreAuthorize("hasAuthority('READ')")
-    // public ResponseEntity<List<UserDTO>> findAllAdmin() {
-
-    //     return new ResponseEntity<>(this.userService.findAll(), HttpStatus.OK);
-
-    // }
-
+    
     // find all
     @GetMapping("/ver")
     @PreAuthorize("hasAuthority('LEER')")
     public ResponseEntity<List<UserDTO>> findAll() {
 
         return new ResponseEntity<>(this.userRequestService.findAll(), HttpStatus.OK);
+
+    }
+
+    // find all
+    @GetMapping("/verInfo")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<List<UserInfoDTO>> findAllInfo() {
+
+        return new ResponseEntity<>(this.userRequestService.findAllInfo(), HttpStatus.OK);
 
     }
 

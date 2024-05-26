@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.institute.one.users.business.service.interfaces.IUserRequestService;
 import com.institute.one.users.presentation.dto.UserDTO;
+import com.institute.one.users.presentation.dto.UserInfoDTO;
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
 import com.institute.one.utilities.enums.StateEnum;
@@ -33,6 +34,18 @@ public class UserRequestServiceImpl implements IUserRequestService {
                 .stream()
                 .map(entity -> modelMapper.map(entity, UserDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserInfoDTO> findAllInfo() {
+
+        ModelMapper modelMapper = new ModelMapper();
+
+        return this.userRepository.findAll()
+                .stream()
+                .map(entity -> modelMapper.map(entity, UserInfoDTO.class))
+                .collect(Collectors.toList());
+
     }
 
     @Override

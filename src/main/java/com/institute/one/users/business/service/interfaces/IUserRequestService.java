@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.institute.one.users.domain.entity.UserEntity;
 import com.institute.one.users.presentation.dto.UserDTO;
+import com.institute.one.users.presentation.dto.UserInfoDTO;
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
 import com.institute.one.utilities.enums.StateEnum;
@@ -13,6 +14,8 @@ import com.institute.one.utilities.enums.StateEnum;
 public interface IUserRequestService {
 
     List<UserDTO> findAll();
+    
+    List<UserInfoDTO> findAllInfo();
 
     UserDTO findById(Long id);
 

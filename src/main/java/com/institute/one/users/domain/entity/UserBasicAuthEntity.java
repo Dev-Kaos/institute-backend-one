@@ -3,18 +3,12 @@ package com.institute.one.users.domain.entity;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.institute.one.utilities.enums.DocTypeEnum;
-import com.institute.one.utilities.enums.GenderEnum;
-import com.institute.one.utilities.enums.StateEnum;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -27,7 +21,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Setter
 @Getter
@@ -42,6 +35,7 @@ public class UserBasicAuthEntity {
     @Column(name = "user_id") // No generation strategy needed
     private Long userId; // Use userId instead of id for clarity
 
+    @JsonBackReference
     @OneToOne
     @MapsId // Use MapsId to link the user_id with the UserEntity's id
     private UserEntity user;
@@ -58,13 +52,13 @@ public class UserBasicAuthEntity {
     private boolean isEnabled;
 
     @Column(name = "account_no_expired")
-    private boolean AccountNoExpired;
+    private boolean accountNoExpired;
 
     @Column(name = "account_no_locked")
-    private boolean AccountNoLocked;
+    private boolean accountNoLocked;
 
     @Column(name = "credential_no_expired")
-    private boolean CredentialNoExpired;
+    private boolean credentialNoExpired;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))

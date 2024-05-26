@@ -1,9 +1,6 @@
 package com.institute.one.users.presentation.dto;
 
-import java.util.List;
-import java.util.Set;
-
-import com.institute.one.users.domain.entity.RoleEntity;
+import com.institute.one.users.domain.entity.UserBasicAuthEntity;
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
 import com.institute.one.utilities.enums.StateEnum;
@@ -19,9 +16,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserInfoDTO {
 
-    private String username;    
+    private Long id;
 
-    private List<String> roles;
+    private UserBasicAuthEntity userAuth;
 
     // TODO: Others
 
@@ -29,9 +26,9 @@ public class UserInfoDTO {
 
     private String surname;
 
-    private DocTypeEnum DocType;
+    private DocTypeEnum docType;
 
-    private String DocNumber;
+    private String docNumber;
 
     private LocalDate birthDate;
 

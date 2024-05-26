@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
 import com.institute.one.utilities.enums.StateEnum;
@@ -45,6 +46,7 @@ public class UserEntity {
     @Column(name = "id")
     private Long id;
 
+    @JsonManagedReference
     @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
     @PrimaryKeyJoinColumn
     private UserBasicAuthEntity userAuth;

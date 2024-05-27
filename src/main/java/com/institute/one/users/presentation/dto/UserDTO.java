@@ -6,6 +6,7 @@ import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
 import com.institute.one.utilities.enums.StateEnum;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,25 +22,25 @@ public class UserDTO {
 
     private String name;
 
-    // private String surname;
+    private String surname;
 
-    // private DocTypeEnum docType;
+    private String docType;
 
-    // private String docNumber;
+    private String docNumber;
 
-    // private LocalDate birthDate;
+    private LocalDate birthDate;
 
-    // private String email;
+    private String email;
 
-    // private String phone;
+    private String phone;
 
-    // private GenderEnum gender;
+    private String gender;
 
-    // private String profileImage;
+    private String profileImage;
 
-    // private String nickname;
+    private String nickname;
 
-    // private StateEnum state;
+    private String state;
 
     // // TODO: Security    
 
@@ -55,6 +56,6 @@ public class UserDTO {
 
     // private boolean credentialNoExpired;
 
-    // private Set<String> roles;
+    private String role;
     
 }

@@ -1,12 +1,5 @@
 package com.institute.one.users.domain.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails.Address;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.institute.one.users.presentation.dto.UserDTO;
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
@@ -19,13 +12,9 @@ import jakarta.persistence.ConstructorResult;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.NamedNativeQuery;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -36,6 +25,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDate;
 
 @Setter
@@ -47,67 +37,97 @@ import java.time.LocalDate;
 @Table(name = "users")
 @NamedNativeQuery(
 
-        name = "getNameAndUsernameNamedQuery",
-        query = "SELECT u.name, ua.username FROM users u JOIN user_auth ua ON u.id = ua.user_id",
-        resultSetMapping = "UserDTOMapping"
-)
+                name = "getNameAndUsernameNamedQuery", query = "SELECT u.name, " + //
+                                "u.surname, " + //
+                                "u.doc_type, " + //
+                                "u.doc_number, " + //
+                                "u.birth_date, " + //
+                                "u.email, " + //
+                                "u.phone, " + //
+                                "u.gender, " + //
+                                "u.profile_image, " + //
+                                "u.nickname, " + //
+                                "u.state, " + //
+                                "ua.username, " + //
+                                "r.role_name " + //
+                                "FROM users u " + //
+                                "JOIN user_auth ua ON u.id = ua.user_id " + //
+                                "JOIN user_roles ur ON ua.user_id = ur.user_id " + //
+                                "JOIN roles r ON ur.role_id = r.id " + //
+                                "", resultSetMapping = "UserDTOMapping")
 @SqlResultSetMapping(
 
-        name = "UserDTOMapping", classes = @ConstructorResult(columns = {
-                @ColumnResult(name = "name", type = String.class),
-                @ColumnResult(name = "username", type = String.class)
-        }, targetClass = UserDTO.class)
+                name = "UserDTOMapping", classes = @ConstructorResult(columns = {
+                                @ColumnResult(name = "name", type = String.class),
+                                @ColumnResult(name = "surname", type = String.class),
+                                @ColumnResult(name = "doc_type", type = String.class),
+                                @ColumnResult(name = "doc_number", type = String.class),
+                                @ColumnResult(name = "birth_date", type = LocalDate.class),
+                                @ColumnResult(name = "email", type = String.class),
+                                @ColumnResult(name = "phone", type = String.class),
+                                @ColumnResult(name = "gender", type = String.class),
+                                @ColumnResult(name = "profile_image", type = String.class),
+                                @ColumnResult(name = "nickname", type = String.class),
+                                @ColumnResult(name = "state", type = String.class),
+                                @ColumnResult(name = "username", type = String.class),
+                                @ColumnResult(name = "role_name", type = String.class),
+                // @ColumnResult(name = "is_enabled", type = Boolean.class),
+                // @ColumnResult(name = "account_no_expired", type = Boolean.class),
+                // @ColumnResult(name = "account_no_locked", type = Boolean.class),
+                // @ColumnResult(name = "credential_no_expired", type = Boolean.class),
+
+                }, targetClass = UserDTO.class)
 
 )
 public class UserEntity {
 
+        // SELECT u.name, ua.username FROM users u JOIN user_auth ua ON u.id =
+        // ua.user_id sql native
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @Column(name = "id")
+        private Long id;
 
-    // SELECT u.name, ua.username FROM users u JOIN user_auth ua ON u.id = ua.user_id sql native
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+        // TODO: Others
 
-    // TODO: Others
+        @Column(name = "name")
+        private String name;
 
-    @Column(name = "name")
-    private String name;
+        @Column(name = "surname")
+        private String surname;
 
-    @Column(name = "surname")
-    private String surname;
+        @Enumerated(EnumType.STRING)
+        @Column(name = "doc_type")
+        private DocTypeEnum docType;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "doc_type")
-    private DocTypeEnum docType;
+        @Column(name = "doc_number")
+        private String docNumber;
 
-    @Column(name = "doc_number")
-    private String docNumber;
+        @Column(name = "birth_date")
+        private LocalDate birthDate;
 
-    @Column(name = "birth_date")
-    private LocalDate birthDate;
+        @Column(name = "email")
+        private String email;
 
-    @Column(name = "email")
-    private String email;
+        @Column(name = "phone")
+        private String phone;
 
-    @Column(name = "phone")
-    private String phone;
+        @Enumerated(EnumType.STRING)
+        @Column(name = "gender")
+        private GenderEnum gender;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "gender")
-    private GenderEnum gender;
+        @Column(name = "profile_image")
+        private String profileImage;
 
-    @Column(name = "profile_image")
-    private String profileImage;
+        @Column(name = "nickname")
+        private String nickname;
 
-    @Column(name = "nickname")
-    private String nickname;
+        @Enumerated(EnumType.STRING)
+        @Column(name = "state")
+        private StateEnum state;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "state")
-    private StateEnum state;
-
-    // @JsonManagedReference
-    @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
-    @PrimaryKeyJoinColumn
-    private UserBasicAuthEntity userAuth;
+        // @JsonManagedReference
+        @OneToOne(mappedBy = "user", cascade = CascadeType.PERSIST)
+        @PrimaryKeyJoinColumn
+        private UserBasicAuthEntity userAuth;
 }

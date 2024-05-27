@@ -1,16 +1,6 @@
 package com.institute.one.users.presentation.dto;
 
-import com.institute.one.users.domain.entity.RoleEntity;
-import com.institute.one.users.domain.entity.UserBasicAuthEntity;
-import com.institute.one.utilities.enums.DocTypeEnum;
-import com.institute.one.utilities.enums.GenderEnum;
-import com.institute.one.utilities.enums.StateEnum;
-
-import java.sql.Date;
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

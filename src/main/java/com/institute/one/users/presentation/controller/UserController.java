@@ -5,8 +5,11 @@ import java.util.Collections;
 import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.institute.one.users.business.service.interfaces.IRoleRequestService;
 import com.institute.one.users.business.service.interfaces.IUserRequestService;
 import com.institute.one.users.business.service.interfaces.IUserService;
+import com.institute.one.users.persistence.repository.INewRoleRepository;
+import com.institute.one.users.presentation.dto.RoleRequestDTO;
 import com.institute.one.users.presentation.dto.UserDTO;
 import com.institute.one.users.presentation.dto.UserInfoDTO;
 import com.institute.one.utilities.enums.StateEnum;
@@ -38,7 +41,25 @@ public class UserController {
     @Autowired
     private IUserRequestService userRequestService;
 
-    // find all
+    @Autowired
+    private IRoleRequestService roleRequestService;
+
+    // find all roles
+    @GetMapping("/roles")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<List<RoleRequestDTO>> verRoles() {
+
+        return new ResponseEntity<>(this.roleRequestService.findAll(), HttpStatus.OK);
+
+    }
+    @GetMapping("/roles/{id}")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<RoleRequestDTO> verRol(@PathVariable Long id) {
+
+        return new ResponseEntity<>(this.roleRequestService.findById(id), HttpStatus.OK);
+
+    }
+    // find role By Id
     @GetMapping("/ver")
     @PreAuthorize("hasAuthority('LEER')")
     public ResponseEntity<List<UserDTO>> ver() {
@@ -58,7 +79,7 @@ public class UserController {
     }
 
     // find all
-    @GetMapping("/verusuarios")
+    @GetMapping("/verUsuarios")
     @PreAuthorize("hasAuthority('LEER')")
     public ResponseEntity<List<UserDTO>> verUsuarios() {
 

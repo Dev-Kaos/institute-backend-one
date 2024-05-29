@@ -5,10 +5,12 @@ import java.util.Collections;
 import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.institute.one.users.business.service.interfaces.IPermissionRequestService;
 import com.institute.one.users.business.service.interfaces.IRoleRequestService;
 import com.institute.one.users.business.service.interfaces.IUserRequestService;
 import com.institute.one.users.business.service.interfaces.IUserService;
 import com.institute.one.users.persistence.repository.INewRoleRepository;
+import com.institute.one.users.presentation.dto.PermissionInfoDTO;
 import com.institute.one.users.presentation.dto.RoleRequestDTO;
 import com.institute.one.users.presentation.dto.UserDTO;
 import com.institute.one.users.presentation.dto.UserInfoDTO;
@@ -36,14 +38,75 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserController {
 
     @Autowired
-    private IUserService userService;
+    private IPermissionRequestService permissionRequestService;
+
+    @Autowired
+    private IRoleRequestService roleRequestService;
 
     @Autowired
     private IUserRequestService userRequestService;
 
     @Autowired
-    private IRoleRequestService roleRequestService;
+    private IUserService userService;
 
+    // TODO: permisos
+    // find all permisos info
+    
+    @GetMapping("/permisosInfo")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<List<PermissionInfoDTO>> verPermissionInfo() {
+        
+        return new ResponseEntity<>(this.permissionRequestService.verPermissionInfo(), HttpStatus.OK);
+        
+    }
+    
+    // find all permisos info by id
+    @GetMapping("/permisos/{id}")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<PermissionInfoDTO> verPermissionInfoById(@PathVariable Long id) {
+
+        return new ResponseEntity<>(this.permissionRequestService.verPermissionInfoById(id), HttpStatus.OK);
+
+    }
+    // find all  permisos info by name containing
+    @GetMapping("/permisos/nombre/{name}")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<List<PermissionInfoDTO>> verPermissionInfoByName(@PathVariable String name) {
+
+        return new ResponseEntity<>(this.permissionRequestService.verPermissionInfoByName(name), HttpStatus.OK);
+
+    }
+    // find all  permisos info by name containing
+    @GetMapping("/permisos/estado/{state}")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<List<PermissionInfoDTO>> verPermissionInfoByState(@PathVariable String state) {
+
+        StateEnum[] states = StateEnum.values();
+        for (StateEnum state1 : states) {
+            if (state1.name().equals(state)) {
+
+                StateEnum stateEnum = StateEnum.valueOf(state);
+
+                return new ResponseEntity<>(this.permissionRequestService.verPermissionInfoByState(stateEnum),
+                        HttpStatus.OK);
+
+            }
+        }
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+    }
+
+    // // find role By Id
+    // @GetMapping("/roles/role/{roleEnum}")
+    // @PreAuthorize("hasAuthority('LEER')")
+    // public ResponseEntity<List<UserDTO>> verRol() {
+
+    //     return new ResponseEntity<>(this.userRequestService.ver(), HttpStatus.OK);
+
+    // }
+
+    // TODO: Roles
     // find all roles
     @GetMapping("/roles")
     @PreAuthorize("hasAuthority('LEER')")
@@ -52,6 +115,17 @@ public class UserController {
         return new ResponseEntity<>(this.roleRequestService.findAll(), HttpStatus.OK);
 
     }
+
+    // find all roles
+    @GetMapping("/rolesInfo")
+    @PreAuthorize("hasAuthority('LEER')")
+    public ResponseEntity<List<RoleRequestDTO>> verRolesInfo() {
+
+        return new ResponseEntity<>(this.roleRequestService.findAll(), HttpStatus.OK);
+
+    }
+
+    // find roles by Id
     @GetMapping("/roles/{id}")
     @PreAuthorize("hasAuthority('LEER')")
     public ResponseEntity<RoleRequestDTO> verRol(@PathVariable Long id) {
@@ -59,14 +133,17 @@ public class UserController {
         return new ResponseEntity<>(this.roleRequestService.findById(id), HttpStatus.OK);
 
     }
+
     // find role By Id
-    @GetMapping("/ver")
+    @GetMapping("/roles/role/{roleEnum}")
     @PreAuthorize("hasAuthority('LEER')")
-    public ResponseEntity<List<UserDTO>> ver() {
+    public ResponseEntity<List<UserDTO>> verRol() {
 
         return new ResponseEntity<>(this.userRequestService.ver(), HttpStatus.OK);
 
     }
+
+    // TODO: Usuarios
 
     // find all
 

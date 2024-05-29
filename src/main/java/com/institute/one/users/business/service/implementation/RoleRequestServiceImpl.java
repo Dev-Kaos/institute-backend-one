@@ -11,6 +11,7 @@ import com.institute.one.users.presentation.dto.UserDTO;
 import com.institute.one.users.presentation.dto.UserInfoDTO;
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
+import com.institute.one.utilities.enums.RoleEnum;
 import com.institute.one.utilities.enums.StateEnum;
 import com.institute.one.users.domain.entity.RoleEntity;
 import com.institute.one.users.domain.entity.UserEntity;
@@ -42,6 +43,26 @@ public class RoleRequestServiceImpl implements IRoleRequestService {
     public RoleRequestDTO findById(Long id) {
 
         Optional<RoleEntity> roleEntity = this.newRoleRepository.findById(id);
+
+        if (roleEntity.isPresent()) {
+            ModelMapper modelMapper = new ModelMapper();
+
+            RoleEntity currentRoleEntity = roleEntity.get();
+
+            return modelMapper.map(currentRoleEntity, RoleRequestDTO.class);
+
+        } else {
+
+            return new RoleRequestDTO();
+
+        }
+
+    }
+
+    @Override
+    public RoleRequestDTO findByRoleEnum(RoleEnum roleEnum) {
+
+        Optional<RoleEntity> roleEntity = this.newRoleRepository.findByRoleEnum(roleEnum);
 
         if (roleEntity.isPresent()) {
             ModelMapper modelMapper = new ModelMapper();

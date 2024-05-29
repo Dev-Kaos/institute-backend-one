@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.institute.one.users.business.service.interfaces.IPermissionRequestService;
+import com.institute.one.users.business.service.interfaces.IPermissionService;
 import com.institute.one.users.business.service.interfaces.IRoleRequestService;
 import com.institute.one.users.business.service.interfaces.IUserRequestService;
 import com.institute.one.users.business.service.interfaces.IUserService;
@@ -41,6 +42,9 @@ public class UserController {
     private IPermissionRequestService permissionRequestService;
 
     @Autowired
+    private IPermissionService permissionService;
+
+    @Autowired
     private IRoleRequestService roleRequestService;
 
     @Autowired
@@ -51,15 +55,15 @@ public class UserController {
 
     // TODO: permisos
     // find all permisos info
-    
+
     @GetMapping("/permisosInfo")
     @PreAuthorize("hasAuthority('LEER')")
     public ResponseEntity<List<PermissionInfoDTO>> verPermissionInfo() {
-        
+
         return new ResponseEntity<>(this.permissionRequestService.verPermissionInfo(), HttpStatus.OK);
-        
+
     }
-    
+
     // find all permisos info by id
     @GetMapping("/permisos/{id}")
     @PreAuthorize("hasAuthority('LEER')")
@@ -68,7 +72,8 @@ public class UserController {
         return new ResponseEntity<>(this.permissionRequestService.verPermissionInfoById(id), HttpStatus.OK);
 
     }
-    // find all  permisos info by name containing
+
+    // find all permisos info by name containing
     @GetMapping("/permisos/nombre/{name}")
     @PreAuthorize("hasAuthority('LEER')")
     public ResponseEntity<List<PermissionInfoDTO>> verPermissionInfoByName(@PathVariable String name) {
@@ -76,7 +81,8 @@ public class UserController {
         return new ResponseEntity<>(this.permissionRequestService.verPermissionInfoByName(name), HttpStatus.OK);
 
     }
-    // find all  permisos info by name containing
+
+    // find all permisos info by name containing
     @GetMapping("/permisos/estado/{state}")
     @PreAuthorize("hasAuthority('LEER')")
     public ResponseEntity<List<PermissionInfoDTO>> verPermissionInfoByState(@PathVariable String state) {
@@ -97,12 +103,37 @@ public class UserController {
 
     }
 
+    // create user
+    @PostMapping("/permisos/crear")
+    @PreAuthorize("hasAuthority('CREAR')")
+    public ResponseEntity<PermissionInfoDTO> savePermission(@RequestBody PermissionInfoDTO permissionInfoDTO) {
+
+        return new ResponseEntity<>(this.permissionService.save(permissionInfoDTO), HttpStatus.CREATED);
+
+    }
+
+    @PutMapping("/permisos/actualizar/{id}")
+    @PreAuthorize("hasAuthority('ACTUALIZAR')")
+    public ResponseEntity<PermissionInfoDTO> updatePermission(@RequestBody PermissionInfoDTO permissionInfoDTO,
+            @PathVariable Long id) {
+
+        return new ResponseEntity<>(this.permissionService.update(id, permissionInfoDTO), HttpStatus.OK);
+
+    }
+
+    @DeleteMapping("/permisos/borrar/{id}")
+    @PreAuthorize("hasAuthority('BORRAR')")
+    public ResponseEntity<String> deletePermission(@PathVariable Long id) {
+        String message = this.permissionService.delete(id); // Call service method
+        return ResponseEntity.ok(message); // Return message in response body
+    }
+
     // // find role By Id
     // @GetMapping("/roles/role/{roleEnum}")
     // @PreAuthorize("hasAuthority('LEER')")
     // public ResponseEntity<List<UserDTO>> verRol() {
 
-    //     return new ResponseEntity<>(this.userRequestService.ver(), HttpStatus.OK);
+    // return new ResponseEntity<>(this.userRequestService.ver(), HttpStatus.OK);
 
     // }
 

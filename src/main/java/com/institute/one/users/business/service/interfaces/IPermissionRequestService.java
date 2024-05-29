@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.institute.one.users.presentation.dto.PermissionInfoDTO;
-import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.StateEnum;
 
 @Service

@@ -1,13 +1,15 @@
-package com.institute.one.users.business.service.implementation;
+package com.institute.one.permissions.bussiness.service.implementation;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.institute.one.users.business.service.interfaces.IPermissionRequestService;
+import com.institute.one.permissions.bussiness.service.interfaces.IPermissionRequestService;
+import com.institute.one.permissions.domain.entity.PermissionEntity;
+import com.institute.one.permissions.persistance.repository.IPermissionRepository;
+import com.institute.one.permissions.presentation.dto.PermissionInfoDTO;
 import com.institute.one.users.business.service.interfaces.IRoleRequestService;
 import com.institute.one.users.business.service.interfaces.IUserRequestService;
-import com.institute.one.users.presentation.dto.PermissionInfoDTO;
 import com.institute.one.users.presentation.dto.RoleRequestDTO;
 import com.institute.one.users.presentation.dto.UserDTO;
 import com.institute.one.users.presentation.dto.UserInfoDTO;
@@ -15,11 +17,9 @@ import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;
 import com.institute.one.utilities.enums.RoleEnum;
 import com.institute.one.utilities.enums.StateEnum;
-import com.institute.one.users.domain.entity.PermissionEntity;
 import com.institute.one.users.domain.entity.RoleEntity;
 import com.institute.one.users.domain.entity.UserEntity;
 import com.institute.one.users.persistence.repository.INewRoleRepository;
-import com.institute.one.users.persistence.repository.IPermissionRepository;
 import com.institute.one.users.persistence.repository.IUserRepository;
 import java.util.Optional;
 import java.util.stream.Collectors;

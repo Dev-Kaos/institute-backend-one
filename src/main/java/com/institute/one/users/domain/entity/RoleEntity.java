@@ -3,6 +3,7 @@ package com.institute.one.users.domain.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.institute.one.permissions.domain.entity.PermissionEntity;
 import com.institute.one.utilities.enums.RoleEnum;
 import com.institute.one.utilities.enums.StateEnum;
 

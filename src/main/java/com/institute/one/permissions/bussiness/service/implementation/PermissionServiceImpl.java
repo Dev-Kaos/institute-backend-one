@@ -1,14 +1,14 @@
-package com.institute.one.users.business.service.implementation;
+package com.institute.one.permissions.bussiness.service.implementation;
 
 import java.util.List;
 
-import com.institute.one.users.business.service.interfaces.IPermissionService;
+import com.institute.one.permissions.bussiness.service.interfaces.IPermissionService;
+import com.institute.one.permissions.domain.entity.PermissionEntity;
+import com.institute.one.permissions.persistance.repository.IPermissionRepository;
+import com.institute.one.permissions.presentation.dto.PermissionInfoDTO;
 import com.institute.one.users.business.service.interfaces.IUserService;
-import com.institute.one.users.domain.entity.PermissionEntity;
 import com.institute.one.users.domain.entity.UserEntity;
-import com.institute.one.users.persistence.repository.IPermissionRepository;
 import com.institute.one.users.persistence.repository.IUserRepository;
-import com.institute.one.users.presentation.dto.PermissionInfoDTO;
 import com.institute.one.users.presentation.dto.UserDTO;
 import com.institute.one.utilities.enums.DocTypeEnum;
 import com.institute.one.utilities.enums.GenderEnum;

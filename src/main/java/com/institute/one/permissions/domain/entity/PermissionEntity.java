@@ -1,4 +1,4 @@
-package com.institute.one.users.domain.entity;
+package com.institute.one.permissions.domain.entity;
 
 import com.institute.one.utilities.enums.StateEnum;
 

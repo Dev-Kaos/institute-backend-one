@@ -1,4 +1,4 @@
-package com.institute.one.users.presentation.dto;
+package com.institute.one.permissions.presentation.dto;
 
 import com.institute.one.utilities.enums.StateEnum;
 

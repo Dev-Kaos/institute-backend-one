@@ -1,8 +1,8 @@
-package com.institute.one.users.business.service.interfaces;
+package com.institute.one.permissions.bussiness.service.interfaces;
 
 import org.springframework.stereotype.Service;
 
-import com.institute.one.users.presentation.dto.PermissionInfoDTO;
+import com.institute.one.permissions.presentation.dto.PermissionInfoDTO;
 
 @Service
 public interface IPermissionService {
